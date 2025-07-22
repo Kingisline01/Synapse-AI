@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLearn AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-2">QuickLearn AI</h1>
+            <p class="text-gray-400 max-w-2xl mx-auto">Enter any topic, and our AI will generate a short explanation and provide a link to relevant images to help you learn faster.</p>
+        </header>
+
+        <!-- Input Section -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <input type="text" id="userInput" placeholder="e.g., The Water Cycle" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white transition-all">
+                <button id="generateBtn" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-stars mr-2" viewBox="0 0 16 16">
+                      <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.3l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.3A1.734 1.734 0 0 0 2.31 4.207l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+                    </svg>
+                    Learn
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Text Explanation -->
+            <div id="text-container" class="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 flex flex-col items-center justify-center min-h-[300px] transition-all">
+                <div id="text-placeholder" class="text-center text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-card-text mx-auto mb-4" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/></svg>
+                    <h3 class="font-semibold text-lg text-gray-400">Explanation</h3>
+                    <p>Your text explanation will appear here.</p>
+                </div>
+                <div id="text-loader" class="loader hidden"></div>
+                <div id="text-content" class="w-full"></div>
+            </div>
+
+            <!-- Image Link -->
+            <div id="image-container" class="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 flex flex-col items-center justify-center min-h-[300px] transition-all">
+                <div id="image-placeholder" class="text-center text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-images mx-auto mb-4" viewBox="0 0 16 16"><path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/><path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-1.172a1 1 0 0 0-.707.293l-1.586 1.586a1 1 0 0 1-1.414 0l-1.586-1.586A1 1 0 0 0 7.172 13H6.5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1.5a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.5a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10zM1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-1z"/></svg>
+                    <h3 class="font-semibold text-lg text-gray-400">Image Search</h3>
+                    <p>A link to find images will appear here.</p>
+                </div>
+                <div id="image-loader" class="loader hidden"></div>
+                <div id="image-content" class="w-full h-full flex items-center justify-center"></div>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="error-message" class="hidden mt-6 max-w-2xl mx-auto p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-lg text-center">
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateBtn = document.getElementById('generateBtn');
+            const userInput = document.getElementById('userInput');
+            
+            const textPlaceholder = document.getElementById('text-placeholder');
+            const textLoader = document.getElementById('text-loader');
+            const textContent = document.getElementById('text-content');
+
+            const imagePlaceholder = document.getElementById('image-placeholder');
+            const imageLoader = document.getElementById('image-loader');
+            const imageContent = document.getElementById('image-content');
+            
+            const errorMessage = document.getElementById('error-message');
+
+            generateBtn.addEventListener('click', handleGeneration);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleGeneration();
+                }
+            });
+
+            async function handleGeneration() {
+                const prompt = userInput.value.trim();
+                if (!prompt) {
+                    showError("Please enter a topic to learn about.");
+                    return;
+                }
+
+                resetUI();
+                
+                textPlaceholder.classList.add('hidden');
+                imagePlaceholder.classList.add('hidden');
+                textLoader.classList.remove('hidden');
+                imageLoader.classList.remove('hidden');
+
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                try {
+                    // We can run the text generation and image link creation in parallel
+                    const [textResult, imageLinkResult] = await Promise.allSettled([generateText(prompt), generateImageLink(prompt)]);
+                    
+                    if (textResult.status === 'fulfilled') {
+                        displayText(textResult.value);
+                    } else {
+                        showError("Text Error: " + textResult.reason.message, false);
+                        textLoader.classList.add('hidden');
+                        textPlaceholder.classList.remove('hidden');
+                    }
+
+                    if (imageLinkResult.status === 'fulfilled') {
+                        displayImageLink(imageLinkResult.value, prompt);
+                    } else {
+                        // This part is less likely to fail now, but good to have
+                        showError("Image Link Error: " + imageLinkResult.reason.message, true);
+                        imageLoader.classList.add('hidden');
+                        imagePlaceholder.classList.remove('hidden');
+                    }
+
+                } catch (error) {
+                    showError("An unexpected error occurred: " + error.message);
+                    resetUI();
+                } finally {
+                    generateBtn.disabled = false;
+                    generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            
+            function resetUI() {
+                errorMessage.classList.add('hidden');
+                errorMessage.innerHTML = '';
+                textContent.innerHTML = '';
+                imageContent.innerHTML = '';
+                textPlaceholder.classList.remove('hidden');
+                imagePlaceholder.classList.remove('hidden');
+                textLoader.classList.add('hidden');
+                imageLoader.classList.add('hidden');
+            }
+
+            function showError(message, isAppend = false) {
+                errorMessage.classList.remove('hidden');
+                if (isAppend && errorMessage.innerHTML) {
+                    errorMessage.innerHTML += `<br>${message}`;
+                } else {
+                    errorMessage.innerHTML = message;
+                }
+            }
+
+            function displayText(text) {
+                textLoader.classList.add('hidden');
+                let formattedText = text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-300">$1</strong>')
+                    .replace(/\n\s*-\s/g, '\n<li class="ml-4 list-disc">')
+                    .replace(/\n/g, '<br>');
+                
+                textContent.innerHTML = `<div class="prose prose-invert text-gray-300 fade-in">${formattedText}</div>`;
+            }
+
+            function displayImageLink(url, prompt) {
+                imageLoader.classList.add('hidden');
+                imageContent.innerHTML = `
+                    <div class="text-center fade-in">
+                        <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search mr-2" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                            Find Images for "${prompt}"
+                        </a>
+                        <p class="text-gray-500 text-sm mt-3">Click the button to see relevant images in a new tab.</p>
+                    </div>
+                `;
+            }
+
+            async function generateApi(apiUrl, payload) {
+                const apiKey = "";
+                const fullApiUrl = `${apiUrl}?key=${apiKey}`;
+                
+                const response = await fetch(fullApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const responseText = await response.text();
+                if (!responseText) {
+                    throw new Error(`API returned an empty response. Status: ${response.status} ${response.statusText}`);
+                }
+
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch (e) {
+                    throw new Error(`Failed to parse API response as JSON. Response: ${responseText}`);
+                }
+
+                if (!response.ok) {
+                    const errorDetails = result?.error?.message || `API Error: ${response.status} ${response.statusText}`;
+                    throw new Error(errorDetails);
+                }
+                
+                return result;
+            }
+
+            async function generateText(prompt) {
+                const textPrompt = `Explain the following concept in a simple, concise, and easy-to-understand way for a beginner. Use short paragraphs and bullet points. Concept: "${prompt}"`;
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: textPrompt }] }]
+                };
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+                
+                const result = await generateApi(apiUrl, payload);
+
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    throw new Error("No text content was generated. The prompt might have been blocked.");
+                }
+            }
+
+            async function generateImageLink(prompt) {
+                // Construct a Google Images search URL. This is reliable and avoids all client-side fetching issues.
+                const searchUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(prompt)}`;
+                // Return the URL directly. Wrap in Promise.resolve to keep the async structure consistent.
+                return Promise.resolve(searchUrl);
+            }
+        });
+    </script>
+</body>
+</html>
